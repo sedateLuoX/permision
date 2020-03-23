@@ -1,0 +1,11 @@
+target/
+
+###  adfa
+.idea
+*.iws
+*.iml
+*.ipr
+target
+.classpath
+.progect
+.settings
