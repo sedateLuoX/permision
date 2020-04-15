@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.Map;
 
 @Controller
-@RequestMapping( "test")
+@RequestMapping( "/test")
 @Slf4j
 public class TestController {
 
