@@ -52,7 +52,7 @@ public class UserController {
                 response.sendRedirect(ret);
                 return;
             }else {
-                response.sendRedirect("/admin/index.page");//todo
+                response.sendRedirect("/admin/index.page");
                 return;
             }
         }
