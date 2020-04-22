@@ -8,6 +8,7 @@ import com.mmall.exception.ParamException;
 import com.mmall.model.SysDept;
 import com.mmall.param.DeptParma;
 import com.mmall.util.BeanValidator;
+import com.mmall.util.IpUtil;
 import com.mmall.util.LeveUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
@@ -36,7 +37,7 @@ public class SysDeptService {
                 .seq(parma.getSeq()).remark(parma.getRemark()).build();
         dept.setLevel(LeveUtil.calculateLeve(getLeve(parma.getParentId()), parma.getParentId()));
         dept.setOperator(RequestHolder.getCurrentUser().getUsername());
-        dept.setOperateIp("127.0.0.1"); //todo;
+        dept.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
         dept.setOperateTime(new Date());
         sysDeptMapper.insertSelective(dept);
 
@@ -60,7 +61,7 @@ public class SysDeptService {
 
         after.setLevel(LeveUtil.calculateLeve(getLeve(parma.getParentId()),parma.getParentId()));
         after.setOperator(RequestHolder.getCurrentUser().getUsername());
-        after.setOperateIp("127.0.0.1"); //todo;
+        after.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
         after.setOperateTime(new Date());
 
         updateWithChild(before,after);

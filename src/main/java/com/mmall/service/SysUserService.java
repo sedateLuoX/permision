@@ -10,6 +10,7 @@ import com.mmall.exception.ParamException;
 import com.mmall.model.SysUser;
 import com.mmall.param.UserParam;
 import com.mmall.util.BeanValidator;
+import com.mmall.util.IpUtil;
 import com.mmall.util.MD5Util;
 import com.mmall.util.PasswordUtil;
 import org.springframework.stereotype.Service;
@@ -43,7 +44,7 @@ public class SysUserService {
                 .deptId(param.getDeptId()).status(param.getStatus()).remark(param.getRemark()).build();
 
         sysUser.setOperator(RequestHolder.getCurrentUser().getUsername());
-        sysUser.setOperateIp("127.0.0.1"); //todo
+        sysUser.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
         sysUser.setOperateTime(new Date());
 
         //todo  : 发送邮件
@@ -66,7 +67,7 @@ public class SysUserService {
                 deptId(param.getDeptId()).status(param.getStatus()).remark(param.getRemark()).build();
 
         after.setOperator(RequestHolder.getCurrentUser().getUsername());
-        after.setOperateIp("127.0.0.1"); //todo;
+        after.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest())); //todo;
         after.setOperateTime(new Date());
         userMapper.updateByPrimaryKeySelective(after);
     }

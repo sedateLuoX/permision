@@ -30,13 +30,13 @@ public class LoginFilter implements Filter {
         SysUser sysUser = (SysUser)req.getSession().getAttribute("user");
         if (sysUser == null) {
 
-            log.info("Î´µÇÂ¼À¹½Ø»ØµÇÂ¼Ò³Ãæ" );
+            log.info("æœªç™»å½•æˆåŠŸ ,è¢«æ‹¦æˆª" );
             String path = "/signin.jsp";
             resp.sendRedirect(path);
             return;
         }
 
-        log.info( "µÇÂ¼³É¹¦ µÇÂ¼ÓÃ»§ÐÅÏ¢ÊÇ url ->{} ", JsonMapper.objToString(sysUser));
+        log.info( " ç™»å½•æˆåŠŸ ,ç™»å½•ç”¨æˆ·æ˜¯->{} ", JsonMapper.objToString(sysUser));
         RequestHolder.add(sysUser);
         RequestHolder.add(req);
         filterChain.doFilter(servletRequest, servletResponse);
