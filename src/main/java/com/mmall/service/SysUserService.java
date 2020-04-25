@@ -74,7 +74,7 @@ public class SysUserService {
 
     public boolean checkTelePhoneExist(String telePhone ,Integer userId){
 
-        return userMapper.countByTelePhone(telePhone,userId)>0;
+        return userMapper.countByTelephone(telePhone,userId)>0;
     }
 
     public boolean checkEmailExist(String Email ,Integer userId){

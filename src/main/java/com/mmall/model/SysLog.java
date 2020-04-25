@@ -1,13 +1,22 @@
 package com.mmall.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 import java.util.Date;
 
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class SysLog {
     private Integer id;
 
     private Integer type;
 
-    private Integer targerId;
+    private Integer targetId;
 
     private String operator;
 
@@ -33,12 +42,12 @@ public class SysLog {
         this.type = type;
     }
 
-    public Integer getTargerId() {
-        return targerId;
+    public Integer getTargetId() {
+        return targetId;
     }
 
-    public void setTargerId(Integer targerId) {
-        this.targerId = targerId;
+    public void setTargetId(Integer targerId) {
+        this.targetId = targerId;
     }
 
     public String getOperator() {

@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.mmall.model.SysLog" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="type" property="type" jdbcType="INTEGER" />
-    <result column="targer_id" property="targerId" jdbcType="INTEGER" />
+    <result column="target_id" property="targetId" jdbcType="INTEGER" />
     <result column="operator" property="operator" jdbcType="VARCHAR" />
     <result column="operate_time" property="operateTime" jdbcType="TIMESTAMP" />
     <result column="operate_ip" property="operateIp" jdbcType="VARCHAR" />
@@ -15,7 +15,7 @@
     <result column="new_value" property="newValue" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, type, targer_id, operator, operate_time, operate_ip, status
+    id, type, target_id, operator, operate_time, operate_ip, status
   </sql>
   <sql id="Blob_Column_List" >
     old_value, new_value
@@ -33,11 +33,11 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.mmall.model.SysLogWithBLOBs" >
-    insert into sys_log (id, type, targer_id, 
+    insert into sys_log (id, type, target_id, 
       operator, operate_time, operate_ip, 
       status, old_value, new_value
       )
-    values (#{id,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{targerId,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{targetId,jdbcType=INTEGER}, 
       #{operator,jdbcType=VARCHAR}, #{operateTime,jdbcType=TIMESTAMP}, #{operateIp,jdbcType=VARCHAR}, 
       #{status,jdbcType=INTEGER}, #{oldValue,jdbcType=LONGVARCHAR}, #{newValue,jdbcType=LONGVARCHAR}
       )
@@ -51,8 +51,8 @@
       <if test="type != null" >
         type,
       </if>
-      <if test="targerId != null" >
-        targer_id,
+      <if test="targetId != null" >
+        target_id,
       </if>
       <if test="operator != null" >
         operator,
@@ -80,8 +80,8 @@
       <if test="type != null" >
         #{type,jdbcType=INTEGER},
       </if>
-      <if test="targerId != null" >
-        #{targerId,jdbcType=INTEGER},
+      <if test="targetId != null" >
+        #{targetId,jdbcType=INTEGER},
       </if>
       <if test="operator != null" >
         #{operator,jdbcType=VARCHAR},
@@ -109,8 +109,8 @@
       <if test="type != null" >
         type = #{type,jdbcType=INTEGER},
       </if>
-      <if test="targerId != null" >
-        targer_id = #{targerId,jdbcType=INTEGER},
+      <if test="targetId != null" >
+        target_id = #{targetId,jdbcType=INTEGER},
       </if>
       <if test="operator != null" >
         operator = #{operator,jdbcType=VARCHAR},
@@ -136,7 +136,7 @@
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.mmall.model.SysLogWithBLOBs" >
     update sys_log
     set type = #{type,jdbcType=INTEGER},
-      targer_id = #{targerId,jdbcType=INTEGER},
+      target_id = #{targetId,jdbcType=INTEGER},
       operator = #{operator,jdbcType=VARCHAR},
       operate_time = #{operateTime,jdbcType=TIMESTAMP},
       operate_ip = #{operateIp,jdbcType=VARCHAR},
@@ -148,11 +148,48 @@
   <update id="updateByPrimaryKey" parameterType="com.mmall.model.SysLog" >
     update sys_log
     set type = #{type,jdbcType=INTEGER},
-      targer_id = #{targerId,jdbcType=INTEGER},
+      target_id = #{targetId,jdbcType=INTEGER},
       operator = #{operator,jdbcType=VARCHAR},
       operate_time = #{operateTime,jdbcType=TIMESTAMP},
       operate_ip = #{operateIp,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="countBySearchDto" parameterType="map" resultType="int">
+    SELECT count(1)
+    FROM sys_log
+    <include refid="queryConditions" />
+  </select>
+
+  <select id="getPageListBySearchDto" parameterType="map" resultMap="ResultMapWithBLOBs">
+    SELECT <include refid="Base_Column_List" />,<include refid="Blob_Column_List" />
+    FROM sys_log
+    <include refid="queryConditions" />
+    ORDER BY operate_time DESC
+    limit #{page.offset}, #{page.pageSize}
+  </select>
+
+  <sql id="queryConditions">
+    <where>
+      <if test="dto.type != null">
+        AND type = #{dto.type}
+      </if>
+      <if test="dto.beforeSeg != null and dto.beforeSeg != ''">
+        AND old_value like #{dto.beforeSeg}
+      </if>
+      <if test="dto.afterSeg != null and dto.afterSeg != ''">
+        AND new_value like #{dto.afterSeg}
+      </if>
+      <if test="dto.operator != null and dto.operator != ''">
+        AND operator like #{dto.operator}
+      </if>
+      <if test="dto.fromTime != null">
+        AND operate_time &gt;= #{dto.fromTime}
+      </if>
+      <if test="dto.toTime != null">
+        AND operate_time &lt;= #{dto.toTime}
+      </if>
+    </where>
+  </sql>
 </mapper>

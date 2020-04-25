@@ -12,7 +12,7 @@ public interface SysDeptMapper {
 
     int insertSelective(SysDept record);
 
-    SysDept selectByPrimaryKey( @Param( "id") Integer id);
+    SysDept selectByPrimaryKey(@Param("id") Integer id);
 
     int updateByPrimaryKeySelective(SysDept record);
 
@@ -20,9 +20,11 @@ public interface SysDeptMapper {
 
     List<SysDept> getAllDept();
 
-    List<SysDept> getChildDeptByLevel(@Param("level")String level);
+    List<SysDept> getChildDeptListByLevel(@Param("level") String level);
 
     void batchUpdateLevel(@Param("sysDeptList") List<SysDept> sysDeptList);
 
-    int countByNameAndParentId(@Param("parentId") int parentId,@Param("name") String name, @Param("id") Integer id );
+    int countByNameAndParentId(@Param("parentId") Integer parentId, @Param("name") String name, @Param("id") Integer id);
+
+    int countByParentId(@Param("deptId") int deptId);
 }

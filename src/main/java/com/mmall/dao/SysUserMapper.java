@@ -19,11 +19,11 @@ public interface SysUserMapper {
 
     int updateByPrimaryKey(SysUser record);
 
-    SysUser findByKeyword(@Param("keyWord") String keyWord);
+    SysUser findByKeyword(@Param("keyword") String keyword);
 
-    int countByMail(@Param("mail") String mail,@Param("id") Integer id);
+    int countByMail(@Param("mail") String mail, @Param("id") Integer id);
 
-    int countByTelePhone(@Param("telephone") String telephone, @Param("id") Integer id);
+    int countByTelephone(@Param("telephone") String telephone, @Param("id") Integer id);
 
     int countByDeptId(@Param("deptId") int deptId);
 

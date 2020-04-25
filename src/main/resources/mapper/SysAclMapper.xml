@@ -41,7 +41,7 @@
       #{operator,jdbcType=VARCHAR}, #{operateTime,jdbcType=TIMESTAMP}, #{operateIp,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.mmall.model.SysAcl" >
+  <insert id="insertSelective" parameterType="com.mmall.model.SysAcl" keyProperty="id" useGeneratedKeys="true">
     insert into sys_acl
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -218,4 +218,5 @@
     FROM sys_acl
     WHERE url = #{url} <!-- url is not null and url != '' and  #{url} REGEXP url-->
   </select>
+
 </mapper>

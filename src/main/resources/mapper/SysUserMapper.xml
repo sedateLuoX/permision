@@ -38,7 +38,7 @@
       #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, 
       #{operateTime,jdbcType=TIMESTAMP}, #{operateIp,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.mmall.model.SysUser" >
+  <insert id="insertSelective" parameterType="com.mmall.model.SysUser" keyProperty="id" useGeneratedKeys="true">
     insert into sys_user
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -163,11 +163,10 @@
   </update>
 
   <select id="findByKeyword" parameterType="string" resultMap="BaseResultMap">
-
-    select <include refid="Base_Column_List"/>
-    from sys_user
-    where telephone =#{keyWord}
-    or mail =#{keyWord}
+    SELECT <include refid="Base_Column_List" />
+    FROM sys_user
+    WHERE telephone = #{keyword}
+    OR mail = #{keyword}
   </select>
 
   <select id="countByMail" parameterType="map" resultType="int">
@@ -179,7 +178,7 @@
     </if>
   </select>
 
-  <select id="countByTelePhone" parameterType="map" resultType="int">
+  <select id="countByTelephone" parameterType="map" resultType="int">
     SELECT count(1)
     FROM sys_user
     WHERE telephone = #{telephone}

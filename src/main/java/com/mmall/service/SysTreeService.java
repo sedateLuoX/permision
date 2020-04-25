@@ -31,12 +31,12 @@ public class SysTreeService {
     private SysDeptMapper sysDeptMapper;
     @Resource
     private SysAclModuleMapper sysAclModuleMapper;
-   // @Resource
-   // private SysCoreService sysCoreService;
+    @Resource
+    private SysCoreService sysCoreService;
     @Resource
     private SysAclMapper sysAclMapper;
 
-   /* public List<AclModuleLevelDto> userAclTree(int userId) {
+    public List<AclModuleLevelDto> userAclTree(int userId) {
         List<SysAcl> userAclList = sysCoreService.getUserAclList(userId);
         List<AclDto> aclDtoList = Lists.newArrayList();
         for (SysAcl acl : userAclList) {
@@ -71,7 +71,7 @@ public class SysTreeService {
             aclDtoList.add(dto);
         }
         return aclListToTree(aclDtoList);
-    }*/
+    }
 
     public List<AclModuleLevelDto> aclListToTree(List<AclDto> aclDtoList) {
         if (CollectionUtils.isEmpty(aclDtoList)) {

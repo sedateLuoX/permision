@@ -41,34 +41,7 @@
         <property name="prefix" value="/WEB-INF/views/"></property>
         <property name="suffix" value=".jsp"></property>
     </bean>
-<!--
 
-    <context:annotation-config/>
-    <context:component-scan base-package="com.mmall.*"/>
-    &lt;!&ndash;启动注解驱动&ndash;&gt;
-    <mvc:annotation-driven/>
-    <mvc:interceptors>
-        <bean class="com.mmall.common.HttpInterceptor"/>
-    </mvc:interceptors>
-
-    <bean class="com.mmall.common.ExceptionResolver"/>
-
-    <bean class="com.mmall.common.ApplicationContextHelper" lazy-init="false"/>
-
-    <bean class="org.springframework.web.servlet.view.BeanNameViewResolver"/>
-
-    <bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"/>
-
-    <bean  class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        &lt;!&ndash; 配置jsp路径的前缀 &ndash;&gt;
-        <property name="prefix" value="/WEB-INF/views/"/>
-        &lt;!&ndash; 配置jsp路径的后缀 &ndash;&gt;
-        <property name="suffix" value=".jsp"/>
-    </bean>
-    静态资源映射
-    <mvc:resources mapping="/css/**" location="/views/css/"/>
-    <mvc:resources mapping="/js/**" location="/views/js"/>
--->
 
 
 </beans>
