@@ -69,7 +69,7 @@ public class SysCoreService {
         return false;
     }
 
-  /*  public boolean hasUrlAcl(String url) {
+    public boolean hasUrlAcl(String url) {
         if (isSuperAdmin()) {
             return true;
         }
@@ -78,7 +78,7 @@ public class SysCoreService {
             return true;
         }
 
-        List<SysAcl> userAclList = getCurrentUserAclListFromCache();
+        List<SysAcl> userAclList = getCurrentUserAclList();
         Set<Integer> userAclIdSet = userAclList.stream().map(acl -> acl.getId()).collect(Collectors.toSet());
 
         boolean hasValidAcl = false;
@@ -97,7 +97,7 @@ public class SysCoreService {
             return true;
         }
         return false;
-    }*/
+    }
 
    /* public List<SysAcl> getCurrentUserAclListFromCache() {
         int userId = RequestHolder.getCurrentUser().getId();
