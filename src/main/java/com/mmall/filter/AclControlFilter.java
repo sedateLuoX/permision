@@ -36,6 +36,7 @@ public class AclControlFilter implements Filter {
         List<String> exclusionUrlList = Splitter.on(",").trimResults().omitEmptyStrings().splitToList(exclusionUrls);
         exclusionUrlSet = Sets.newConcurrentHashSet(exclusionUrlList);
         exclusionUrlSet.add(noAuthUrl);
+        exclusionUrlSet.add("/admin/index.page");
     }
 
     @Override

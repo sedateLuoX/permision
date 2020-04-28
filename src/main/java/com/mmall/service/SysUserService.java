@@ -24,6 +24,8 @@ public class SysUserService {
 
     @Resource
     private SysUserMapper userMapper;
+    @Resource
+    private SysLogService sysLogService;
 
     public void save(UserParam param) {
         BeanValidator.check(param);
@@ -49,6 +51,7 @@ public class SysUserService {
 
         //todo  : 发送邮件
         userMapper.insertSelective(sysUser);
+        sysLogService.saveUserLog(null, sysUser);
     }
 
 
@@ -67,9 +70,10 @@ public class SysUserService {
                 deptId(param.getDeptId()).status(param.getStatus()).remark(param.getRemark()).build();
 
         after.setOperator(RequestHolder.getCurrentUser().getUsername());
-        after.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest())); //todo;
+        after.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
         after.setOperateTime(new Date());
         userMapper.updateByPrimaryKeySelective(after);
+        sysLogService.saveUserLog(before, after);
     }
 
     public boolean checkTelePhoneExist(String telePhone ,Integer userId){

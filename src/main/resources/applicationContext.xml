@@ -7,7 +7,24 @@
 
     <comtext:annotation-config/>
 
-    <comtext:property-placeholder location="classpath:jdbc.properties"/>
+    <comtext:property-placeholder location="classpath:jdbc.properties,classpath:redis.properties"/>
+
+
+
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig" />
+
+    <bean id="shardedJedisPool" class="redis.clients.jedis.ShardedJedisPool" scope="singleton" >
+        <constructor-arg index="0" ref="jedisPoolConfig" />
+        <constructor-arg index="1">
+            <list>
+                <bean class="redis.clients.jedis.JedisShardInfo">
+                    <constructor-arg name="host" value="${redis.host}"/>
+                    <constructor-arg name="port" value="${redis.port}"/>
+                    <constructor-arg name="timeout" value="${redis.timeout}"/>
+                </bean>
+            </list>
+        </constructor-arg>
+    </bean>
 
 
     <!--数据源-->

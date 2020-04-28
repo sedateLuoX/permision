@@ -1,7 +1,7 @@
 package com.mmall.dao;
 
 import com.mmall.beans.PageQuery;
-
+import com.mmall.dto.SearchLogDto;
 import com.mmall.model.SysLog;
 import com.mmall.model.SysLogWithBLOBs;
 import org.apache.ibatis.annotations.Param;
@@ -23,7 +23,7 @@ public interface SysLogMapper {
 
     int updateByPrimaryKey(SysLog record);
 
- /*   int countBySearchDto(@Param("dto") SearchLogDto dto);
+    int countBySearchDto(@Param("dto") SearchLogDto dto);
 
-    List<SysLogWithBLOBs> getPageListBySearchDto(@Param("dto") SearchLogDto dto, @Param("page") PageQuery page);*/
+    List<SysLogWithBLOBs> getPageListBySearchDto(@Param("dto") SearchLogDto dto, @Param("page") PageQuery page);
 }

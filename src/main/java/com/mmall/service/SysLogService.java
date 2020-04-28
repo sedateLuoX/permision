@@ -11,7 +11,7 @@ import com.mmall.dao.SysDeptMapper;
 import com.mmall.dao.SysLogMapper;
 import com.mmall.dao.SysRoleMapper;
 import com.mmall.dao.SysUserMapper;
-
+import com.mmall.dto.SearchLogDto;
 import com.mmall.exception.ParamException;
 import com.mmall.model.SysAcl;
 import com.mmall.model.SysAclModule;
@@ -19,7 +19,7 @@ import com.mmall.model.SysDept;
 import com.mmall.model.SysLogWithBLOBs;
 import com.mmall.model.SysRole;
 import com.mmall.model.SysUser;
-
+import com.mmall.param.SearchLogParam;
 import com.mmall.util.BeanValidator;
 import com.mmall.util.IpUtil;
 import com.mmall.util.JsonMapper;
@@ -47,19 +47,22 @@ public class SysLogService {
     private SysAclMapper sysAclMapper;
     @Resource
     private SysRoleMapper sysRoleMapper;
-   /* @Resource
+    @Resource
     private SysRoleAclService sysRoleAclService;
     @Resource
     private SysRoleUserService sysRoleUserService;
-*/
-  /* public void recover(int id) {
+
+    public void recover(int id) {
         SysLogWithBLOBs sysLog = sysLogMapper.selectByPrimaryKey(id);
         Preconditions.checkNotNull(sysLog, "待还原的记录不存在");
-        switch (sysLog.getType()){
+        switch (sysLog.getType()) {
             case LogType.TYPE_DEPT:
                 SysDept beforeDept = sysDeptMapper.selectByPrimaryKey(sysLog.getTargetId());
-                Preconditions.checkNotNull(beforeDept, "待还原的部门已经不存在了");
-                if (StringUtils.isBlank(sysLog.getNewValue())  || StringUtils.isBlank(sysLog.getOldValue())) {
+                if(beforeDept==null){
+                    throw new ParamException("待还原的部门已经不存在了");
+                }
+                //Preconditions.checkNotNull(beforeDept, "待还原的部门已经不存在了");
+                if (StringUtils.isBlank(sysLog.getNewValue()) || StringUtils.isBlank(sysLog.getOldValue())) {
                     throw new ParamException("新增和删除操作不做还原");
                 }
                 SysDept afterDept = JsonMapper.stringToObj(sysLog.getOldValue(), new TypeReference<SysDept>() {
@@ -72,8 +75,11 @@ public class SysLogService {
                 break;
             case LogType.TYPE_USER:
                 SysUser beforeUser = sysUserMapper.selectByPrimaryKey(sysLog.getTargetId());
-                Preconditions.checkNotNull(beforeUser, "待还原的用户已经不存在了");
-                if (StringUtils.isBlank(sysLog.getNewValue())  || StringUtils.isBlank(sysLog.getOldValue())) {
+                if(beforeUser==null){
+                    throw new ParamException("待还原的用户已经不存在了");
+                }
+                //Preconditions.checkNotNull(beforeUser, "待还原的用户已经不存在了");
+                if (StringUtils.isBlank(sysLog.getNewValue()) || StringUtils.isBlank(sysLog.getOldValue())) {
                     throw new ParamException("新增和删除操作不做还原");
                 }
                 SysUser afterUser = JsonMapper.stringToObj(sysLog.getOldValue(), new TypeReference<SysUser>() {
@@ -86,8 +92,11 @@ public class SysLogService {
                 break;
             case LogType.TYPE_ACL_MODULE:
                 SysAclModule beforeAclModule = sysAclModuleMapper.selectByPrimaryKey(sysLog.getTargetId());
-                Preconditions.checkNotNull(beforeAclModule, "待还原的权限模块已经不存在了");
-                if (StringUtils.isBlank(sysLog.getNewValue())  || StringUtils.isBlank(sysLog.getOldValue())) {
+                if(beforeAclModule==null){
+                    throw new ParamException("待还原的权限模块已经不存在了");
+                }
+                //Preconditions.checkNotNull(beforeAclModule, "待还原的权限模块已经不存在了");
+                if (StringUtils.isBlank(sysLog.getNewValue()) || StringUtils.isBlank(sysLog.getOldValue())) {
                     throw new ParamException("新增和删除操作不做还原");
                 }
                 SysAclModule afterAclModule = JsonMapper.stringToObj(sysLog.getOldValue(), new TypeReference<SysAclModule>() {
@@ -100,8 +109,11 @@ public class SysLogService {
                 break;
             case LogType.TYPE_ACL:
                 SysAcl beforeAcl = sysAclMapper.selectByPrimaryKey(sysLog.getTargetId());
-                Preconditions.checkNotNull(beforeAcl, "待还原的权限点已经不存在了");
-                if (StringUtils.isBlank(sysLog.getNewValue())  || StringUtils.isBlank(sysLog.getOldValue())) {
+                if(beforeAcl==null){
+                    throw new ParamException("待还原的权限点已经不存在了");
+                }
+               // Preconditions.checkNotNull(beforeAcl, "待还原的权限点已经不存在了");
+                if (StringUtils.isBlank(sysLog.getNewValue()) || StringUtils.isBlank(sysLog.getOldValue())) {
                     throw new ParamException("新增和删除操作不做还原");
                 }
                 SysAcl afterAcl = JsonMapper.stringToObj(sysLog.getOldValue(), new TypeReference<SysAcl>() {
@@ -114,8 +126,11 @@ public class SysLogService {
                 break;
             case LogType.TYPE_ROLE:
                 SysRole beforeRole = sysRoleMapper.selectByPrimaryKey(sysLog.getTargetId());
-                Preconditions.checkNotNull(beforeRole, "待还原的角色已经不存在了");
-                if (StringUtils.isBlank(sysLog.getNewValue())  || StringUtils.isBlank(sysLog.getOldValue())) {
+                if(beforeRole==null){
+                    throw new ParamException("待还原的角色已经不存在了");
+                }
+               // Preconditions.checkNotNull(beforeRole, "待还原的角色已经不存在了");
+                if (StringUtils.isBlank(sysLog.getNewValue()) || StringUtils.isBlank(sysLog.getOldValue())) {
                     throw new ParamException("新增和删除操作不做还原");
                 }
                 SysRole afterRole = JsonMapper.stringToObj(sysLog.getOldValue(), new TypeReference<SysRole>() {
@@ -128,21 +143,31 @@ public class SysLogService {
                 break;
             case LogType.TYPE_ROLE_ACL:
                 SysRole aclRole = sysRoleMapper.selectByPrimaryKey(sysLog.getTargetId());
-                Preconditions.checkNotNull(aclRole, "角色已经不存在了");
-                sysRoleAclService.changeRoleAcls(sysLog.getTargetId(), JsonMapper.stringToObj(sysLog.getOldValue(), new TypeReference<List<Integer>>() {
+                if(aclRole==null){
+                    throw new ParamException("角色已经不存在了");
+                }
+               // Preconditions.checkNotNull(aclRole, "角色已经不存在了");
+                sysRoleAclService.changeRoleAcls(sysLog.getTargetId(), JsonMapper.stringToObj(sysLog.getOldValue(),
+                        new TypeReference<List<Integer>>() {
                 }));
                 break;
             case LogType.TYPE_ROLE_USER:
                 SysRole userRole = sysRoleMapper.selectByPrimaryKey(sysLog.getTargetId());
-                Preconditions.checkNotNull(userRole, "角色已经不存在了");
-                sysRoleUserService.changeRoleUsers(sysLog.getTargetId(), JsonMapper.stringToObj(sysLog.getOldValue(), new TypeReference<List<Integer>>() {
+
+                if(userRole==null){
+                    throw new ParamException("角色已经不存在了");
+                }
+               // Preconditions.checkNotNull(userRole, "角色已经不存在了");
+                sysRoleUserService.changeRoleUsers(sysLog.getTargetId(), JsonMapper.stringToObj(sysLog.getOldValue(),
+                        new TypeReference<List<Integer>>() {
                 }));
                 break;
-            default:;
+            default:
+                ;
         }
-    }*/
+    }
 
-  /*  public PageResult<SysLogWithBLOBs> searchPageList(SearchLogParam param, PageQuery page) {
+    public PageResult<SysLogWithBLOBs> searchPageList(SearchLogParam param, PageQuery page) {
         BeanValidator.check(page);
         SearchLogDto dto = new SearchLogDto();
         dto.setType(param.getType());
@@ -167,19 +192,19 @@ public class SysLogService {
             throw new ParamException("传入的日期格式有问题，正确格式为：yyyy-MM-dd HH:mm:ss");
         }
         int count = sysLogMapper.countBySearchDto(dto);
-        if (count > 0){
+        if (count > 0) {
             List<SysLogWithBLOBs> logList = sysLogMapper.getPageListBySearchDto(dto, page);
             return PageResult.<SysLogWithBLOBs>builder().total(count).data(logList).build();
         }
         return PageResult.<SysLogWithBLOBs>builder().build();
-    }*/
+    }
 
-  /*  public void saveDeptLog(SysDept before, SysDept after) {
+    public void saveDeptLog(SysDept before, SysDept after) {
         SysLogWithBLOBs sysLog = new SysLogWithBLOBs();
         sysLog.setType(LogType.TYPE_DEPT);
         sysLog.setTargetId(after == null ? before.getId() : after.getId());
-        sysLog.setOldValue(before == null ? "" : JsonMapper.obj2String(before));
-        sysLog.setNewValue(after == null ? "" : JsonMapper.obj2String(after));
+        sysLog.setOldValue(before == null ? "" : JsonMapper.objToString(before));
+        sysLog.setNewValue(after == null ? "" : JsonMapper.objToString(after));
         sysLog.setOperator(RequestHolder.getCurrentUser().getUsername());
         sysLog.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
         sysLog.setOperateTime(new Date());
@@ -191,8 +216,8 @@ public class SysLogService {
         SysLogWithBLOBs sysLog = new SysLogWithBLOBs();
         sysLog.setType(LogType.TYPE_USER);
         sysLog.setTargetId(after == null ? before.getId() : after.getId());
-        sysLog.setOldValue(before == null ? "" : JsonMapper.obj2String(before));
-        sysLog.setNewValue(after == null ? "" : JsonMapper.obj2String(after));
+        sysLog.setOldValue(before == null ? "" : JsonMapper.objToString(before));
+        sysLog.setNewValue(after == null ? "" : JsonMapper.objToString(after));
         sysLog.setOperator(RequestHolder.getCurrentUser().getUsername());
         sysLog.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
         sysLog.setOperateTime(new Date());
@@ -204,8 +229,8 @@ public class SysLogService {
         SysLogWithBLOBs sysLog = new SysLogWithBLOBs();
         sysLog.setType(LogType.TYPE_ACL_MODULE);
         sysLog.setTargetId(after == null ? before.getId() : after.getId());
-        sysLog.setOldValue(before == null ? "" : JsonMapper.obj2String(before));
-        sysLog.setNewValue(after == null ? "" : JsonMapper.obj2String(after));
+        sysLog.setOldValue(before == null ? "" : JsonMapper.objToString(before));
+        sysLog.setNewValue(after == null ? "" : JsonMapper.objToString(after));
         sysLog.setOperator(RequestHolder.getCurrentUser().getUsername());
         sysLog.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
         sysLog.setOperateTime(new Date());
@@ -217,8 +242,8 @@ public class SysLogService {
         SysLogWithBLOBs sysLog = new SysLogWithBLOBs();
         sysLog.setType(LogType.TYPE_ACL);
         sysLog.setTargetId(after == null ? before.getId() : after.getId());
-        sysLog.setOldValue(before == null ? "" : JsonMapper.obj2String(before));
-        sysLog.setNewValue(after == null ? "" : JsonMapper.obj2String(after));
+        sysLog.setOldValue(before == null ? "" : JsonMapper.objToString(before));
+        sysLog.setNewValue(after == null ? "" : JsonMapper.objToString(after));
         sysLog.setOperator(RequestHolder.getCurrentUser().getUsername());
         sysLog.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
         sysLog.setOperateTime(new Date());
@@ -230,14 +255,12 @@ public class SysLogService {
         SysLogWithBLOBs sysLog = new SysLogWithBLOBs();
         sysLog.setType(LogType.TYPE_ROLE);
         sysLog.setTargetId(after == null ? before.getId() : after.getId());
-        sysLog.setOldValue(before == null ? "" : JsonMapper.obj2String(before));
-        sysLog.setNewValue(after == null ? "" : JsonMapper.obj2String(after));
+        sysLog.setOldValue(before == null ? "" : JsonMapper.objToString(before));
+        sysLog.setNewValue(after == null ? "" : JsonMapper.objToString(after));
         sysLog.setOperator(RequestHolder.getCurrentUser().getUsername());
         sysLog.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
         sysLog.setOperateTime(new Date());
         sysLog.setStatus(1);
         sysLogMapper.insertSelective(sysLog);
     }
-
-   */
 }
