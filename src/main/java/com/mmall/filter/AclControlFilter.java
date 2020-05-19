@@ -38,9 +38,9 @@ public class AclControlFilter implements Filter {
         exclusionUrlSet.add(noAuthUrl);
         exclusionUrlSet.add("/admin/index.page");
     }
-
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
+            throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         String servletPath = request.getServletPath();
@@ -50,20 +50,19 @@ public class AclControlFilter implements Filter {
             filterChain.doFilter(servletRequest, servletResponse);
             return;
         }
-
         SysUser sysUser = RequestHolder.getCurrentUser();
         if (sysUser == null) {
-            log.info("someone visit {}, but no login, parameter:{}", servletPath, JsonMapper.objToString(requestMap));
+            log.info("有人访问 {}, 但没有进行登录:{}", servletPath, JsonMapper.objToString(requestMap));
             noAuth(request, response);
             return;
         }
         SysCoreService sysCoreService = ApplicationContextHelper.popBean(SysCoreService.class);
         if (!sysCoreService.hasUrlAcl(servletPath)) {
-            log.info("{} visit {}, but no login, parameter:{}", JsonMapper.objToString(sysUser), servletPath, JsonMapper.objToString(requestMap));
+            log.info("{} visit {}, but no login, parameter:{}", JsonMapper.objToString(sysUser), servletPath,
+                    JsonMapper.objToString(requestMap));
             noAuth(request, response);
             return;
         }
-
         filterChain.doFilter(servletRequest, servletResponse);
         return;
     }

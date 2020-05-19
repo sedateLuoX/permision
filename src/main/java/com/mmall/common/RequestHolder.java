@@ -13,19 +13,15 @@ public class RequestHolder {
     public static void add(SysUser sysUser) {
         userHolder.set(sysUser);
     }
-
     public static void add(HttpServletRequest request) {
         requestHolder.set(request);
     }
-
     public static SysUser getCurrentUser() {
         return userHolder.get();
     }
-
     public static HttpServletRequest getCurrentRequest() {
         return requestHolder.get();
     }
-
     public static void remove() {
         userHolder.remove();
         requestHolder.remove();

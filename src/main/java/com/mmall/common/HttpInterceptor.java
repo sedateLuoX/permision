@@ -18,32 +18,21 @@ public class HttpInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler){
         String url = request.getRequestURI();
         Map parameterMap = request.getParameterMap();
-
         log.info(" 请求开始  url ->{} , params ->{}" ,url, JsonMapper.objToString(parameterMap));
         long start = System.currentTimeMillis();
         request.setAttribute(START_TIME,start);
         return true;
     }
-
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
-
-//        String url = request.getRequestURI();
-//
-//        long start =(Long) request.getAttribute(START_TIME);
-//        long end = System.currentTimeMillis();
-//        log.info("请求结束： url ->{} , 使用时间 ->{}mm" ,url, end-start);
         removeThreadLocalInfomation();
 
     }
-
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)  {
-
         String url = request.getRequestURI();
         Map parameterMap = request.getParameterMap();
         log.info(" 请求完成  url ->{} , params ->{}" ,url, JsonMapper.objToString(parameterMap));
-
         removeThreadLocalInfomation();
     }
 

@@ -15,11 +15,9 @@ public class ExceptionResolver implements HandlerExceptionResolver {
     @Override
     public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response,
         Object o, Exception ex) {
-
         String url = request.getRequestURL().toString();
         ModelAndView mv;
         String defaultMsg =  "system error";
-
         //.json  .page
         //项目中所有请求json数据，都使用.json结尾
         if (url.endsWith(".json")) {

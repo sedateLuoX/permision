@@ -19,31 +19,24 @@ import java.io.IOException;
 @Slf4j
 public class LoginFilter implements Filter {
 
-    public void init(FilterConfig filterConfig) throws ServletException {
-
-    }
-
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+    public void init(FilterConfig filterConfig) throws ServletException {}
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
+            throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
 
         SysUser sysUser = (SysUser)req.getSession().getAttribute("user");
         if (sysUser == null) {
-
             log.info("未登录成功 ,被拦截" );
             String path = "/signin.jsp";
             resp.sendRedirect(path);
             return;
         }
-
         log.info( " 登录成功 ,登录用户是->{} ", JsonMapper.objToString(sysUser));
         RequestHolder.add(sysUser);
         RequestHolder.add(req);
         filterChain.doFilter(servletRequest, servletResponse);
         return;
     }
-
-    public void destroy() {
-
-    }
+    public void destroy() { }
 }
